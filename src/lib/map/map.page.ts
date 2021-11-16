@@ -1,105 +1,67 @@
-import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
-declare let google;
-
+import { Component, ViewChild, OnInit } from '@angular/core';
+import * as Mapboxgl from 'mapbox-gl'; // or "const mapboxgl = require('mapbox-gl');"
+import { environment } from '../../../../../../environments/environment.prod';
+import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
 @Component({
   selector: 'app-map',
   templateUrl: './map.page.html',
   styleUrls: ['./map.page.scss'],
 })
 
+
 export class MapPage implements OnInit {
 
-  @ViewChild('map', { static: false }) mapElement: ElementRef;
-  map: any;
-  address: string;
+  mapa: Mapboxgl.Map;
 
   latitude: number;
   longitude: number;
 
-  search: string;
-  geocoder: string;
+  geocoder: Mapboxgl.Map;
 
-  constructor(
-    private geolocation: Geolocation,
-    private nativeGeocoder: NativeGeocoder) {
+  constructor() { 
   }
-
-  options: NativeGeocoderOptions = {
-    useLocale: true,
-    maxResults: 5
-  };
 
 
   ngOnInit() {
     this.loadMap();
-  }
-
-  onChange(search, options) : void {
-    console.log("onChange Event data: " + search);  
-    this.nativeGeocoder.forwardGeocode(search, options)
-    .then((result: NativeGeocoderResult[]) => console.log('The coordinates are latitude=' + result[0].latitude + ' and longitude=' + result[0].longitude))
-    .catch((error: any) => console.log(error));
-
-  }
-
-  loadMap() {
-    this.geolocation.getCurrentPosition().then((resp) => {
-
-      this.latitude = resp.coords.latitude;
-      this.longitude = resp.coords.longitude;
-
-      const latLng = new google.maps.LatLng(resp.coords.latitude, resp.coords.longitude);
-      const mapOptions = {
-        center: latLng,
-        zoom: 15,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-      }
-
-      this.getAddressFromCoords(resp.coords.latitude, resp.coords.longitude);
-
-      this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
-
-      this.map.addListener('dragend', () => {
-
-        this.latitude = this.map.center.lat();
-        this.longitude = this.map.center.lng();
-
-        this.getAddressFromCoords(this.map.center.lat(), this.map.center.lng())
-      });
-
-    }).catch((error) => {
-      console.log('Error getting location', error);
+    this.mapa.on('load', () => {
+      this.mapa.resize();
     });
+    this.controlGeocoder();
   }
 
-  getAddressFromCoords(lattitude, longitude) {
-    console.log("getAddressFromCoords " + lattitude + " " + longitude);
-    const options: NativeGeocoderOptions = {
-      useLocale: true,
-      maxResults: 5
-    };
+  onChange(search: string): any {
+    console.log("onChange Event data: " + search); // search is the value of the search bar 
+  }
+  
+  loadMap(): any {
+    Mapboxgl.accessToken = environment.mapboxKey;
+    this.mapa = new Mapboxgl.Map({
+      container: 'map', // container ID
+      style: 'mapbox://styles/mapbox/streets-v11', // style URL
+      center: [35.94391836102586, -0.3477833086427684], // starting position [lng, lat]
+      zoom: 9 // starting zoom
+    });
+    this.createMarker(35.94391836102586, -0.3477833086427684, "#ff000");
+  }
 
-    this.nativeGeocoder.reverseGeocode(lattitude, longitude, options)
-      .then((result: NativeGeocoderResult[]) => {
-        this.address = "";
-        const responseAddress = [];
-        for (const [key, value] of Object.entries(result[0])) {
-          if (value.length > 0)
-            responseAddress.push(value);
+  controlGeocoder() {
+    this.mapa.addControl(
+      new MapboxGeocoder({
+        accessToken: environment.mapboxKey,
+        mapboxgl: Mapboxgl,
+    }))
+  }
 
-        }
-        responseAddress.reverse();
-        for (const value of responseAddress) {
-          this.address += value + ", ";
-        }
-        this.address = this.address.slice(0, -2);
-      })
-      .catch((error: any) => {
-        this.address = "Address Not Available!";
-      });
+  createMarker(latitude: number, longitude: number, colour: string): any {
 
+    const marker = new Mapboxgl.Marker({
+      draggable: true,
+      color: colour,
+    })
+    .setLngLat([latitude, longitude])
+    .addTo(this.mapa);
+    console.log("marker:", marker, colour);  
   }
 
 }

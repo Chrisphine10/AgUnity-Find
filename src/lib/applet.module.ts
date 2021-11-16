@@ -13,6 +13,7 @@ import { ProductsModule, ProductsPage } from './products/products.module';
 import { ProductModule, ProductPage } from './product/product.module';
 import { ProductQtyModule } from './product-qty/product-qty.module';
 import { MapPage } from './map/map.module';
+import { ProfilePage } from './profile/profile.page';
 import { AppletImagePathToBase64PipeModule } from '@agunity/pipes';
 import { SuccessPage } from './success/success.page';
 import { SuccessPageModule } from './success/success.module';
@@ -39,6 +40,7 @@ import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
 					{ path: 'product/:id', component: ProductPage },
 					{ path: '', redirectTo: 'products', pathMatch: 'full' },
 					{ path: 'map', component: MapPage},
+					{ path: 'profile', component: ProfilePage},
 				],
 			},
 		]),
