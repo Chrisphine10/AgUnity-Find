@@ -1,0 +1,43 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-button (click)="loadMap()" shape="round" color="dark">
+            <ion-icon slot="end" name="locate"></ion-icon>
+        </ion-button>
+        <ion-input value={{search}} slot="start" placeholder="Find connection in a location..." [(ngModel)]='text' (change)='onChange($event.target.value)'>
+            <ion-icon slot="end" name="search"></ion-icon>
+        </ion-input>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div class="map-wrapper">
+        <div #map id="map"></div>
+    </div>
+
+    <ion-grid>
+        <ion-row>
+            <ion-col size="3">
+                <b>Lattitude</b>
+            </ion-col>
+            <ion-col>
+                {{latitude}}
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="3">
+                <b>Longitude</b>
+            </ion-col>
+            <ion-col>
+                {{longitude}}
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="3">
+                <b>Address</b>
+            </ion-col>
+            <ion-col>
+                {{address}}
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

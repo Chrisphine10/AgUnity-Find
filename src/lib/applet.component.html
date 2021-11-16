@@ -1,0 +1,10 @@
+<applet-header title="{{ 'APPLETS.' + appletName + '.TITLE' | translate }}" iconPath="{{ 'assets/favicon.svg' | appletImagePathToBase64 | async }}">
+</applet-header>
+<ion-content [data-testid]="'applet-'+ appletName">
+    <applet-tabs [tabs]="[
+			{ name: 'APPLETS.' + appletName + '.TABS.MAP' | translate, path: 'map'},
+			{ name: 'APPLETS.' + appletName + '.HEADER.PRODUCTS' | translate, path: 'products'},
+			{ name: 'APPLETS.' + appletName + '.HEADER.WALLET' | translate, path: 'orders'},
+		]">
+    </applet-tabs>
+</ion-content>
