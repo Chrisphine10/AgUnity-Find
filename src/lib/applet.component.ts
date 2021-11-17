@@ -12,4 +12,20 @@ export class AppletComponent {
 	constructor(private appletApiService: AppletApiService) {
 		console.log('applet constructor: ' + appletName);
 	}
+
+	showMaps(): void {
+		this.appletApiService.navigate.subPath(['map']);
+	}
+	showContact(): void {
+		this.appletApiService.navigate.subPath(['contacts']);
+	}
+	showProfile(): void {
+		this.appletApiService.navigate.subPath(['profile']);
+	}
+	showExplore(): void {
+		this.appletApiService.navigate.subPath(['explore']);
+	}
+	showAlert(): void {
+		this.appletApiService.navigate.subPath(['notification']);
+	}
 }

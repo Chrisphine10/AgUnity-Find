@@ -14,6 +14,7 @@ import { ProductModule, ProductPage } from './product/product.module';
 import { ProductQtyModule } from './product-qty/product-qty.module';
 import { MapPage } from './map/map.module';
 import { ProfilePage } from './profile/profile.page';
+import { ContactsPage } from './contacts/contacts.page';
 import { AppletImagePathToBase64PipeModule } from '@agunity/pipes';
 import { SuccessPage } from './success/success.page';
 import { SuccessPageModule } from './success/success.module';
@@ -21,7 +22,11 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AppletApiService } from '@agunity/provider';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
-
+import {RatingPage} from './rating/rating.page';
+import { ExplorePage } from './explore/explore.page';
+import { ContactProfilePage } from './contact-profile/contact-profile.page';
+import {NotificationPage} from './notification/notification.page';
+import { ProfileEditPage } from './profile-edit/profile-edit.page';
 @NgModule({
 	imports: [
 		CommonModule,
@@ -41,6 +46,18 @@ import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
 					{ path: '', redirectTo: 'products', pathMatch: 'full' },
 					{ path: 'map', component: MapPage},
 					{ path: 'profile', component: ProfilePage},
+					{ path: 'explore', component: ExplorePage},
+					{ path: 'notification', component: NotificationPage},
+					{ path: 'profileEdit', component: ProfileEditPage},
+					{ path: 'rating', component: RatingPage},
+					{ path: 'contactProfile', component: ContactProfilePage},
+					{path: 'contacts', component: ContactsPage},
+					{ path: 'map', component: AppletComponent },
+					{ path: 'contacts', component: AppletComponent },
+					{ path: 'explore', component: AppletComponent },
+					{ path: 'notification', component: AppletComponent },
+					{ path: 'profile', component: AppletComponent },
+
 				],
 			},
 		]),

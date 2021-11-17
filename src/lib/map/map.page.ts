@@ -28,6 +28,7 @@ export class MapPage implements OnInit {
       this.mapa.resize();
     });
     this.controlGeocoder();
+    this.controlGeolocateControl();
   }
 
   onChange(search: string): any {
@@ -52,6 +53,17 @@ export class MapPage implements OnInit {
         mapboxgl: Mapboxgl,
     }))
   }
+  controlGeolocateControl() {
+    this.mapa.addControl(
+      new Mapboxgl.GeolocateControl({
+        positionOptions: {
+        enableHighAccuracy: true
+        },
+        trackUserLocation: true,
+        showUserHeading: true
+      }))
+  }
+
 
   createMarker(latitude: number, longitude: number, colour: string): any {
 
